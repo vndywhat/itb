@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
@@ -13,7 +14,9 @@ class ImageController extends Controller
      */
     public function index()
     {
-        // return view('image.index');
+        $images = Image::with('author')->paginate(6);
+
+        return view('image.index', compact('images'));
     }
 
     /**

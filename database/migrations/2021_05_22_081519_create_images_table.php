@@ -18,7 +18,7 @@ class CreateImagesTable extends Migration
             $table->string('filename');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

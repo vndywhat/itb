@@ -30,7 +30,7 @@ class ImageController extends Controller
     {
         abort_if(! $user = User::select(['id', 'name'])->where('id', $userId)->first(), 404);
 
-       $userImages = Image::with('author')->whereHas('author', function ($query) use ($user) {
+        $userImages = Image::with('author')->whereHas('author', function ($query) use ($user) {
             $query->where('users.id', $user->id);
         })->paginate();
 
@@ -53,7 +53,7 @@ class ImageController extends Controller
      * @param ImageUploadRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ImageUploadRequest $request)
+    public function store(ImageUploadRequest $request): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'is_ok' => true
@@ -64,10 +64,12 @@ class ImageController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        abort_if(! $image = Image::with('author')->where('id', $id)->first(), 404);
+
+        return view('image.show', compact('image'));
     }
 }

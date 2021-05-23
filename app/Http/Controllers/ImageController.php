@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Image;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class ImageController extends Controller
 {
@@ -15,9 +15,26 @@ class ImageController extends Controller
      */
     public function index()
     {
-        $images = Image::with('author')->paginate(6);
+        $images = Image::with('author')->paginate();
 
         return view('image.index', compact('images'));
+    }
+
+    /**
+     * Display a listing of the resource by author.
+     *
+     * @param int $userId
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function userImages(int $userId)
+    {
+        abort_if(! $user = User::select(['id', 'name'])->where('id', $userId)->first(), 404);
+
+       $userImages = Image::with('author')->whereHas('author', function ($query) use ($user) {
+            $query->where('users.id', $user->id);
+        })->paginate();
+
+        return view('image.user', compact('userImages', 'user'));
     }
 
     /**

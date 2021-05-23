@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Image extends Model
 {
@@ -21,6 +21,18 @@ class Image extends Model
         'user_id',
     ];
 
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 6;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'thumbnail'
     ];

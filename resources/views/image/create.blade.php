@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input-image">Select the image</label>
-                            <input type="file" class="form-control-file" id="input-image">
+                            <input type="file" class="form-control-file" id="input-image" accept="image/*">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

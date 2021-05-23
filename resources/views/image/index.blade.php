@@ -24,18 +24,8 @@
                 <div class="card">
                     <div class="card-header">
                         <a title="{{ $image->title }}" href="{{ route('images.show', ['image' => $image->id]) }}">
-                            {{ \Illuminate\Support\Str::limit($image->title, 30) }}
+                            {{ \Illuminate\Support\Str::limit($image->title, 35) }}
                         </a>
-                        <span class="float-right">
-                            @if(Auth::id() === $image->author->id)
-                                <a
-                                    href="{{ route('images.edit', ['image' => $image->id]) }}"
-                                    title="{{ __('Edit image') }}"
-                                >
-                                    <i class="bi bi-pencil-fill"></i>
-                                </a>
-                            @endif
-                        </span>
                     </div>
                     <div class="card-body">
                         <a

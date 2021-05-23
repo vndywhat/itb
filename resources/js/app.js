@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 $(document).ready(function () {
-    $("#upload-form").submit(function () {
+    $('#upload-form').submit(function () {
         event.preventDefault();
 
         removeValidationMessages();
@@ -35,10 +35,13 @@ $(document).ready(function () {
         formData.append('description', description.val());
         formData.append('upload_file', image[0].files[0]);
 
-        axios.post('/images', formData)
+        axios.post('/gallery', formData)
             .then(function (response) {
-                resetForm();
-                $('.toast').toast('show')
+                if(response.data.status === 'ok') {
+                    resetForm();
+                    $('.toast').toast('show');
+                    window.location = response.data.url;
+                }
             })
             .catch(function (error) {
                 if(error.response.data.errors) {

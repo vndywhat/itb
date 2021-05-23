@@ -5,7 +5,7 @@
         </div>
     </div>
     @forelse($images as $image)
-        @include('image.partials.card-image', ['image' => $image])
+        @include('gallery.partials.card-image', ['image' => $image])
     @empty
         <div class="col-md-12">
             <div class="card">

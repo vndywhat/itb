@@ -7,7 +7,7 @@
             <h3>{{ $image->title }}</h3>
         </div>
         <div class="col-md-6 text-right">
-            <a title="{{ __('Go to gallery') }}" href="{{ route('images.index') }}" class="btn btn-primary">
+            <a title="{{ __('Go to gallery') }}" href="{{ route('gallery.index') }}" class="btn btn-primary">
                 <i class="bi bi-images"></i>
                 {{ __('Go to gallery') }}
             </a>
@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <img class="card-img" src="https://picsum.photos/200/300" alt="{{ $image->title }}">
+                    <img class="card-img" src="{{ $image->getImageUrl() }}" alt="{{ $image->title }}">
                 </div>
                 <div class="col-md-6">
                     @if($image->description)
@@ -30,7 +30,7 @@
                     <p>
                         <a
                             title="{{ __('Show all images uploaded by this user') }}"
-                            href="{{ route('images.user', ['user' => $image->author->id]) }}"
+                            href="{{ route('gallery.user', ['user' => $image->author->id]) }}"
                         >
                             {{ $image->author->name }}
                         </a>

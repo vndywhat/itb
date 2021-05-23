@@ -10,7 +10,7 @@
                     {{ __('Upload image') }}
                 </div>
                 <div class="card-body">
-                    <form id="upload-form" action="{{ route('images.store') }}" enctype="multipart/form-data">
+                    <form id="upload-form" action="{{ route('gallery.store') }}" enctype="multipart/form-data">
 
                         @csrf
                         @method('POST')

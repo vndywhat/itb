@@ -42,8 +42,21 @@ class Image extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function getThumbnailAttribute()
+    public function getThumbnailAttribute(): string
     {
-        return 'ok';
+        if(! \Storage::disk('public')->exists('images/thumbnail_' . $this->filename)) {
+            return $this->getImageUrl();
+        }
+
+        return \Storage::url('public/images' . '/thumbnail_' . $this->filename);
+    }
+
+    public function getImageUrl(): string
+    {
+        if(! \Storage::disk('public')->exists('images/' . $this->filename)) {
+            return asset('img/no-image.png');
+        }
+
+        return \Storage::url('public/images' . '/' . $this->filename);
     }
 }

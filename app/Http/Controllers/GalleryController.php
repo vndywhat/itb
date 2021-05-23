@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Image;
 use App\Models\User;
+use App\Services\Uploader\ImageUploader;
 
-class ImageController extends Controller
+class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +18,7 @@ class ImageController extends Controller
     {
         $images = Image::with('author')->paginate();
 
-        return view('image.index', compact('images'));
+        return view('gallery.index', compact('images'));
     }
 
     /**
@@ -34,7 +35,7 @@ class ImageController extends Controller
             $query->where('users.id', $user->id);
         })->paginate();
 
-        return view('image.user', compact('userImages', 'user'));
+        return view('gallery.user', compact('userImages', 'user'));
     }
 
     /**
@@ -44,7 +45,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        return view('image.create');
+        return view('gallery.create');
     }
 
     /**
@@ -55,9 +56,29 @@ class ImageController extends Controller
      */
     public function store(ImageUploadRequest $request): \Illuminate\Http\JsonResponse
     {
-        return response()->json([
-            'is_ok' => true
-        ]);
+        try {
+            $uploader = new ImageUploader($request->file('upload_file'));
+            $uploader->save();
+
+            $image = Image::create([
+                'filename' => $uploader->fileName(),
+                'title' => $request->get('title'),
+                'description' => $request->get('description'),
+                'user_id' => $request->user()->id,
+            ]);
+
+            return response()->json([
+                'status' => 'ok',
+                'url' => route('gallery.show', ['image' => $image->id])
+            ]);
+
+        }
+        catch (\Exception $exception) {
+            return response()->json([
+                'status' => 'error',
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -70,6 +91,6 @@ class ImageController extends Controller
     {
         abort_if(! $image = Image::with('author')->where('id', $id)->first(), 404);
 
-        return view('image.show', compact('image'));
+        return view('gallery.show', compact('image'));
     }
 }

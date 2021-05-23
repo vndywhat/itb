@@ -7,12 +7,12 @@
             <h3>{{ __('Gallery') }}</h3>
         </div>
         <div class="col-md-6 text-right">
-            <a title="{{ __('Upload image') }}" href="{{ route('images.create') }}" class="btn btn-success">
+            <a title="{{ __('Upload image') }}" href="{{ route('gallery.create') }}" class="btn btn-success">
                 <i class="bi bi-cloud-arrow-up"></i>
                 {{ __('Upload image') }}
             </a>
         </div>
     </div>
-    @include('image.partials.images', ['images' => $images])
+    @include('gallery.partials.images', ['images' => $images])
 </div>
 @endsection

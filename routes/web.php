@@ -18,12 +18,12 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'verified'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::group(['prefix' => 'images'], function () {
-        Route::get('/', [App\Http\Controllers\ImageController::class, 'index'])->name('images.index');
-        Route::post('/', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
-        Route::get('/create', [App\Http\Controllers\ImageController::class, 'create'])->name('images.create');
-        Route::get('/{image}', [App\Http\Controllers\ImageController::class, 'show'])->name('images.show');
-        Route::get('/user/{user}', [App\Http\Controllers\ImageController::class, 'userImages'])->name('images.user');
+    Route::group(['prefix' => 'gallery'], function () {
+        Route::get('/', [App\Http\Controllers\GalleryController::class, 'index'])->name('gallery.index');
+        Route::post('/', [App\Http\Controllers\GalleryController::class, 'store'])->name('gallery.store');
+        Route::get('/create', [App\Http\Controllers\GalleryController::class, 'create'])->name('gallery.create');
+        Route::get('/{image}', [App\Http\Controllers\GalleryController::class, 'show'])->name('gallery.show');
+        Route::get('/user/{user}', [App\Http\Controllers\GalleryController::class, 'userImages'])->name('gallery.user');
     });
 
     /**
